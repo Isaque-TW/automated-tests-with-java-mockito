@@ -24,4 +24,20 @@ public class CourseBusinessTest {
         assertEquals(4, filteredCourses.size());
 
     }
+
+    @Test
+    void testCoursesRelatedToSpring_When_UsingAFooBarStudent() {
+
+        // Given Arrange
+        CourseService stubService = new CourseServiceStub();
+        CourseBusiness business = new CourseBusiness(stubService);
+
+        // When / Act
+        var filteredCourses =
+                business.retriveCoursesRelatedToSpring("Foo Bar");
+
+        // Then / Assert
+        assertEquals(0, filteredCourses.size());
+
+    }
 }

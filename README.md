@@ -124,3 +124,59 @@ public class MinhaClasseTest {
     }
 }
 ```
+## Por que usar o Mockito em vez de Stubs?
+
+Você pode estar se perguntando: "Mas ainda não usamos o Mockito, por que ele é tão importante?".  
+Essa importância fica clara ao compará-lo com a abordagem de **stubs**, que apresenta várias desvantagens.
+
+Imagine que, ao adicionar um novo método em uma interface, todos os stubs implementados anteriormente quebram. Isso ocorre porque cada stub precisa ser atualizado manualmente para incluir o novo método, mesmo que ele não seja utilizado.
+
+Por exemplo, suponha que alteramos uma interface em um projeto:
+
+```java
+public interface CursoService {
+    void fazerAlgo();
+    void novaAssinatura(); // Novo método adicionado
+}
+```
+
+Agora, todos os stubs que implementam essa interface precisam ser revisados e atualizados, o que não é prático, especialmente em projetos com dezenas ou centenas de desenvolvedores.
+
+### Principais problemas com stubs:
+1. **Alto custo de manutenção:** Cada mudança na interface exige revisão manual de todos os stubs.
+2. **Complexidade com condições dinâmicas:** Implementar setups para stubs em cenários complexos consome muito tempo.
+3. **Falta de escalabilidade:** Projetos grandes tornam essa abordagem insustentável.
+
+### Como o Mockito resolve isso?
+O Mockito elimina a necessidade de atualizar manualmente stubs ao permitir que dependências sejam simuladas automaticamente. Assim, mesmo que novos métodos sejam adicionados às interfaces, você não precisará implementar métodos desnecessários.
+
+Além disso, o Mockito facilita a configuração de comportamentos dinâmicos e economiza tempo durante a escrita de testes, tornando o processo mais eficiente e produtivo.
+
+## Exemplo Completo
+
+```java
+@RunWith(MockitoJUnitRunner.class)
+public class MinhaClasseTest {
+
+    @Mock
+    private DependenciaMockada dependencia;
+
+    @InjectMocks
+    private MinhaClasse classeTestada;
+
+    @Test
+    public void testMetodo() {
+        // Configurar comportamento
+        when(dependencia.metodoDependencia()).thenReturn("Mockado");
+
+        // Executar o método
+        String resultado = classeTestada.metodo();
+
+        // Verificar retorno
+        assertEquals("Mockado", resultado);
+
+        // Verificar interações
+        verify(dependencia, times(1)).metodoDependencia();
+    }
+}
+```
