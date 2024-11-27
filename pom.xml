@@ -8,8 +8,8 @@
         <junit.version>5.9.2</junit.version>
         <mockito.version>5.2.0</mockito.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <maven.compiler.target>22</maven.compiler.target>
-        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+        <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
     </properties>
     
@@ -32,6 +32,12 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
             <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
 
