@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class CourseBusinessMockWithBDDTest {
@@ -41,6 +42,7 @@ public class CourseBusinessMockWithBDDTest {
                 "Microsserviços do 0 com Spring Cloud, Kotlin e Docker"
         );
     }
+
     @Test
     void testCoursesRelatedToSpring_When_UsingAMock() {
 
@@ -53,6 +55,32 @@ public class CourseBusinessMockWithBDDTest {
 
         // Then / Assert
         assertThat(filteredCourses.size(), is(4));
+
+    }
+
+    @DisplayName("Delete Courses not related to Spring Using Mockito Should call Method")
+    @Test
+    void TestDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethod_deleteCourse() {
+        // Given / Arrange
+        given(mockService.retrieveCourse("Leandro"))
+                .willReturn(courses);
+
+        // When / Act
+        business.deleteCoursesNotRelatedToSpring("Leandro");
+
+
+        // Then / Assert
+        //verify(mockService).deleteCourse("Agile Desmistificado com Scrum, XP, Kanban e Trello");
+
+        //verify(mockService, times(1)).deleteCourse("Agile Desmistificado com Scrum, XP, Kanban e Trello");
+
+        verify(mockService, atLeastOnce()).deleteCourse("Agile Desmistificado com Scrum, XP, Kanban e Trello");
+
+
+        verify(mockService).deleteCourse("Arquitetura de Microsserviços do O com ASP.NET, NET 6 e C#");
+
+        verify(mockService, never()).deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
+
 
     }
 

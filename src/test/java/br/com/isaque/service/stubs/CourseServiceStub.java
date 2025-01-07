@@ -25,4 +25,9 @@ public class CourseServiceStub implements CourseService {
     public List<String> doSomething(String student) {
         return null;
     }
+
+    @Override
+    public void deleteCourse(String course) {
+
+    }
 }
