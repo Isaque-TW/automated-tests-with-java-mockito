@@ -58,9 +58,9 @@ public class CourseBusinessMockWithBDDTest {
 
     }
 
-    @DisplayName("Delete Courses not related to Spring Using Mockito Should call Method")
+    @DisplayName("Delete Courses not related to Spring Using Mockito Should call Method deleteCourse")
     @Test
-    void TestDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethod_deleteCourse() {
+    void testDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethod_deleteCourse() {
         // Given / Arrange
         given(mockService.retrieveCourse("Leandro"))
                 .willReturn(courses);
@@ -80,6 +80,25 @@ public class CourseBusinessMockWithBDDTest {
         verify(mockService).deleteCourse("Arquitetura de Microsserviços do O com ASP.NET, NET 6 e C#");
 
         verify(mockService, never()).deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
+
+
+    }
+
+    @DisplayName("Delete Courses not related to Spring Using Mockito Should call Method deleteCourse V2")
+    @Test
+    void testDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethod_deleteCourseV2() {
+        // Given / Arrange
+        given(mockService.retrieveCourse("Leandro"))
+                .willReturn(courses);
+
+        // When / Act
+        business.deleteCoursesNotRelatedToSpring("Leandro");
+
+        then(mockService).should().deleteCourse("Agile Desmistificado com Scrum, XP, Kanban e Trello");
+
+        then(mockService).should().deleteCourse("Arquitetura de Microsserviços do O com ASP.NET, NET 6 e C#");
+
+        then(mockService).should(never()).deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
 
 
     }
