@@ -16,6 +16,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 public class CourseBusinessMockWithBDDTest {
 
@@ -90,6 +91,9 @@ public class CourseBusinessMockWithBDDTest {
         // Given / Arrange
         given(mockService.retrieveCourse("Leandro"))
                 .willReturn(courses);
+        String agileCourse = "Agile Desmistificado com Scrum, XP, Kanban e Trello";
+        String architectureCourse = "Arquitetura de Microsserviços do O com ASP.NET, NET 6 e C#";
+        String restSpringCourse =  "REST API's RESTFul do O à AWS com Spring Boot 3 Kotlin e Docker";
 
         // When / Act
         business.deleteCoursesNotRelatedToSpring("Leandro");
@@ -98,8 +102,33 @@ public class CourseBusinessMockWithBDDTest {
 
         then(mockService).should().deleteCourse("Arquitetura de Microsserviços do O com ASP.NET, NET 6 e C#");
 
-        then(mockService).should(never()).deleteCourse("Microsserviços do 0 com Spring Cloud, Spring Boot e Docker");
+        then(mockService).should(never()).deleteCourse( "REST API's RESTFul do O à AWS com Spring Boot 3 Kotlin e Docker");
 
+
+    }
+
+    @DisplayName("Delete Courses not related to Spring Capturing Arguments Should call Method deleteCourse V2")
+    @Test
+    void testDeleteCoursesNotRelatedToSpring_CapturingArguments_Should_CallMethod_deleteCourseV2() {
+        // Given / Arrange
+
+       /* courses = Arrays.asList(
+                "Agile Desmistificado com Scrum, XP, Kanban e Trello",
+                "REST API'S RESTFul do O à AWS com Spring Boot 3 Java e Docker"
+        ); */
+
+        given(mockService.retrieveCourse("Leandro"))
+                .willReturn(courses);
+
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+
+      //  String agileCourse = "Agile Desmistificado com Scrum, XP, Kanban e Trello";
+
+        // When / Act
+        business.deleteCoursesNotRelatedToSpring("Leandro");
+
+        then(mockService).should(times(7)).deleteCourse(argumentCaptor.capture());
+        assertThat(argumentCaptor.getAllValues().size(), is(7));
 
     }
 
